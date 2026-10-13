@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>발표자 준비</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --sky:#E7EDF3; --paper:#FFFDF8; --ink:#24303D; --soft:#5D6B79; --line:#C9D3DD;
+  --rain:#3D78C6; --sun:#F2C14E; --board:#2F4A3E; --chalk:#F3F1E7; --warn:#B4532A; --ok:#2B7A4B;
+  --hand:"Gaegu","Gowun Dodum",cursive;
+  --body:"Gowun Dodum","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--sky);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.6;word-break:keep-all;-webkit-text-size-adjust:100%}
+button{font:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+main{max-width:480px;margin:0 auto;padding:20px 16px 40px}
+h1{font-family:var(--hand);font-weight:700;font-size:34px;line-height:1.1;margin-bottom:4px}
+.lead{color:var(--soft);margin-bottom:18px}
+.preview{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 4px 12px rgba(36,48,61,.15);margin-bottom:12px}
+.preview img{display:block;width:100%;aspect-ratio:2/1;object-fit:cover;background:#dfe6ec}
+.preview .t{padding:10px 14px 2px;font-weight:bold}
+.preview .d{padding:0 14px 10px;font-size:14px;color:var(--soft)}
+.preview .b{border-top:1px solid #eee;text-align:center;padding:10px;font-size:15px}
+.send{width:100%;min-height:56px;border:0;border-radius:14px;background:#FEE500;color:#191919;font-size:18px;margin-bottom:8px}
+.sub{width:100%;min-height:46px;border:2px solid var(--ink);border-radius:14px;background:transparent;font-size:15px}
+.status{min-height:1.4em;font-size:14px;text-align:center;margin:8px 0 18px}
+.status.err{color:var(--warn)} .status.ok{color:var(--ok)}
+h2{font-size:15px;color:var(--soft);font-weight:normal;margin:22px 0 8px;border-top:1px solid var(--line);padding-top:14px}
+.checks{list-style:none;display:grid;gap:6px}
+.checks li{display:flex;gap:10px;align-items:baseline;background:var(--paper);border-radius:10px;padding:8px 12px;font-size:15px}
+.checks li i{font-style:normal;flex:none;width:20px;text-align:center}
+.checks li.ok i{color:var(--ok)} .checks li.no i{color:var(--warn)}
+.checks small{display:block;color:var(--soft);font-size:12px;word-break:break-all}
+.links{display:grid;gap:8px}
+.links a{display:block;background:var(--paper);border:2px solid var(--line);border-radius:12px;padding:10px 14px;color:var(--ink);text-decoration:none}
+.links a small{display:block;color:var(--soft);font-size:13px}
+</style>
+</head>
+<body>
+<main>
+  <h1>발표자 준비</h1>
+  <p class="lead">발표 직전에 이 화면에서 단톡방으로 카드를 보내요.</p>
+
+  <div class="preview" aria-hidden="true">
+    <img src="images/card.jpg" alt="">
+    <div class="t" id="pt"></div>
+    <div class="d" id="pd"></div>
+    <div class="b">시뮬레이션 하기</div>
+  </div>
+  <button class="send" id="send">단톡방에 카드 보내기</button>
+  <button class="sub" id="sendTest">리허설 카드 보내기 (나와의 채팅으로)</button>
+  <div class="status" id="status" role="status"></div>
+
+  <h2>설정 점검</h2>
+  <ul class="checks" id="checks"></ul>
+
+  <h2>바로가기</h2>
+  <div class="links" id="links"></div>
+</main>
+
+<script src="config.js"></script>
+<script>
+(function(){
+"use strict";
+var CFG = window.APP_CONFIG || {};
+var BASE = CFG.SITE_URL || (location.origin + location.pathname.replace(/[^/]*$/, ""));
+var CARD = {
+  title:"비 오는 날, 우산이 없다면?",
+  desc:"2학년 아이가 되어 등굣길을 걷고, 선생님이 되어 그 질문으로 수업을 설계해 봐요. (10분)"
+};
+var $ = function(id){ return document.getElementById(id); };
+$("pt").textContent = CARD.title; $("pd").textContent = CARD.desc;
+
+function status(t, c){ $("status").textContent = t; $("status").className = "status " + (c || ""); }
+
+var ready = null;
+function loadKakao(){
+  if (ready) return ready;
+  ready = new Promise(function(ok, no){
+    if (!CFG.KAKAO_JS_KEY) return no(new Error("config.js에 KAKAO_JS_KEY가 비어 있어요."));
+    var s = document.createElement("script");
+    s.src = "https://t1.kakaocdn.net/kakao_js_sdk/2.8.3/kakao.min.js"; s.crossOrigin = "anonymous";
+    s.onload = function(){ try{ if (!Kakao.isInitialized()) Kakao.init(CFG.KAKAO_JS_KEY); ok(); }catch(e){ no(e); } };
+    s.onerror = function(){ no(new Error("카카오 SDK를 불러오지 못했어요.")); };
+    document.head.appendChild(s);
+  });
+  ready.catch(function(){ ready = null; });
+  return ready;
+}
+function send(test){
+  var url = BASE + (test ? "?test" : "");
+  loadKakao().then(function(){
+    Kakao.Share.sendDefault({
+      objectType:"feed",
+      content:{title:(test ? "[리허설] " : "") + CARD.title, description:CARD.desc, imageUrl:BASE + "images/card.jpg", link:{mobileWebUrl:url, webUrl:url}},
+      buttons:[{title:"시뮬레이션 하기", link:{mobileWebUrl:url, webUrl:url}}]
+    });
+    status("카카오톡이 열리면 보낼 방을 골라 주세요.", "ok");
+  }).catch(function(e){ status(e.message || "카카오 공유를 열지 못했어요.", "err"); });
+}
+$("send").addEventListener("click", function(){ send(false); });
+$("sendTest").addEventListener("click", function(){ send(true); });
+
+/* 설정 점검 */
+function row(ok, t, s){ return '<li class="' + (ok ? "ok" : "no") + '"><i>' + (ok ? "✓" : "!") + '</i><span>' + t + (s ? '<small>' + s + '</small>' : "") + '</span></li>'; }
+var onPages = /github\.io$/.test(location.hostname);
+var list = [
+  row(!!CFG.SITE_URL && /\/$/.test(CFG.SITE_URL), "사이트 주소", CFG.SITE_URL ? CFG.SITE_URL + (/\/$/.test(CFG.SITE_URL) ? "" : "  ← 끝에 / 를 붙여 주세요") : "config.js의 SITE_URL이 비어 있어요"),
+  row(!!CFG.KAKAO_JS_KEY, "카카오 JavaScript 키", CFG.KAKAO_JS_KEY ? "입력됨" : "config.js의 KAKAO_JS_KEY가 비어 있어요"),
+  row(onPages || location.protocol === "https:", "카카오에 등록할 도메인", location.origin + (onPages ? "" : "  (지금은 GitHub Pages 주소가 아니에요)")),
+  '<li id="ping" class="no"><i>…</i><span>구글 시트 연결<small>' + (CFG.SCRIPT_URL ? "확인하는 중" : "config.js의 SCRIPT_URL이 비어 있어요") + '</small></span></li>'
+];
+$("checks").innerHTML = list.join("");
+if (CFG.SCRIPT_URL){
+  fetch(CFG.SCRIPT_URL + "?ping", {cache:"no-store"}).then(function(r){ return r.json(); }).then(function(res){
+    $("ping").outerHTML = row(res && res.ok, "구글 시트 연결", res && res.ok ? "응답 받음" : "응답이 이상해요");
+  }).catch(function(){
+    $("ping").outerHTML = row(false, "구글 시트 연결", "응답이 없어요. 배포 액세스가 '모든 사용자'인지 확인해 주세요.");
+  });
+}
+
+/* 바로가기 */
+$("links").innerHTML = [
+  ["", "시뮬레이션", "학우들이 받는 화면"],
+  ["view.html?all", "모아보기", "발표 화면에 띄울 칠판. 15초마다 새로 들어온 설계안을 붙여요."],
+  ["?test", "리허설 시뮬레이션", "테스트 탭에 따로 저장돼요."],
+  ["view.html?all&test", "리허설 모아보기", "테스트 탭만 보여요."],
+  ["view.html?all&demo", "예시 모아보기", "시트 없이 화면만 미리 봐요."]
+].map(function(l){ return '<a href="' + BASE + l[0] + '" target="_blank" rel="noopener">' + l[1] + '<small>' + l[2] + '</small></a>'; }).join("");
+})();
+</script>
+</body>
+</html>

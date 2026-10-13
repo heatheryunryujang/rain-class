@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>수업설계안 보기</title>
+<meta property="og:title" content="비 오는 날, 우리가 만든 수업">
+<meta property="og:description" content="아이들의 질문으로 설계한 수업을 함께 봐요.">
+<meta property="og:image" content="images/card.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+/* 개인 보기는 휴대폰용 종이 한 장, 모아보기는 칠판 위에 붙인 설계안들 */
+:root{
+  --sky:#E7EDF3; --paper:#FFFDF8; --ink:#24303D; --soft:#5D6B79; --line:#C9D3DD;
+  --rain:#3D78C6; --rain-deep:#2B5C9E; --sun:#F2C14E; --board:#2F4A3E; --board-2:#3A5A4C; --chalk:#F3F1E7;
+  --pin-me:#FCE9A6; --pin-exp:#D3E5F8; --pin-fr:#F8D9D6; --warn:#B4532A;
+  --hand:"Gaegu","Gowun Dodum",cursive;
+  --body:"Gowun Dodum","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--sky);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.6;word-break:keep-all;overflow-wrap:anywhere;-webkit-text-size-adjust:100%}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+.msg{max-width:480px;margin:18vh auto 0;padding:0 16px;text-align:center;color:var(--soft)}
+.msg b{display:block;font-family:var(--hand);font-size:28px;color:var(--ink);margin-bottom:6px}
+
+/* ---------- 개인 보기 ---------- */
+.one{max-width:480px;margin:0 auto;padding:16px 16px 40px}
+.plan{background:#fff;color:var(--ink);border:2px solid var(--ink);border-radius:16px;padding:16px;text-align:left}
+.plan .who{font-size:13px;color:var(--soft)}
+.plan .big{font-family:var(--hand);font-weight:700;font-size:28px;line-height:1.15;margin:4px 0 6px}
+.plan h4{font-size:13px;color:var(--soft);font-weight:normal;margin:14px 0 4px;border-top:1px solid var(--line);padding-top:10px}
+.plan p,.plan li{font-size:15px}
+.plan ul{list-style:none}
+.plan li{padding-left:12px;position:relative}
+.plan li::before{content:"";position:absolute;left:0;top:.7em;width:5px;height:5px;border-radius:50%;background:var(--rain)}
+.plan .u{text-decoration:underline;text-underline-offset:3px}
+.plan .left{font-size:13px;color:var(--soft);margin-top:4px}
+.tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px}
+.tags span{font-size:12px;background:var(--sky);border-radius:10px;padding:2px 8px}
+.try{display:block;margin-top:16px;text-align:center;min-height:52px;line-height:52px;border-radius:14px;background:var(--rain);color:#fff;text-decoration:none;font-size:17px}
+
+/* ---------- 모아보기 (발표 화면) ---------- */
+body.wall{background:var(--board);color:var(--chalk);font-size:17px}
+.wall header{display:flex;flex-wrap:wrap;align-items:flex-end;gap:12px 24px;padding:22px 28px 10px}
+.wall h1{font-family:var(--hand);font-weight:700;font-size:44px;line-height:1}
+.wall .count{font-family:var(--hand);font-size:26px}
+.wall .count b{font-size:44px;color:var(--sun);font-weight:700}
+.wall .tools{margin-left:auto;display:flex;gap:8px;align-items:center;font-size:14px}
+.wall .tools button{border:2px solid var(--chalk);background:transparent;border-radius:20px;padding:6px 14px;color:var(--chalk)}
+.wall .tools label{display:flex;gap:6px;align-items:center;opacity:.85}
+.wall .stamp{font-size:13px;opacity:.7}
+
+.tally{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;padding:6px 28px 18px}
+.tally section{border:2px dashed rgba(243,241,231,.45);border-radius:14px;padding:12px 14px}
+.tally h3{font-family:var(--hand);font-weight:700;font-size:22px;line-height:1.15;margin-bottom:8px}
+.bar{display:grid;grid-template-columns:1fr auto;gap:2px 8px;font-size:14px;margin-bottom:7px}
+.bar .t{line-height:1.3}
+.bar .n{font-family:var(--hand);font-size:20px;font-weight:700;line-height:1}
+.bar .g{grid-column:1/-1;height:8px;border-radius:4px;background:rgba(243,241,231,.15);overflow:hidden}
+.bar .g i{display:block;height:100%;background:var(--sun);border-radius:4px;transition:width .6s ease}
+.bar.alt .g i{background:#9CC6F0}
+.note{font-size:14px;opacity:.85;margin-top:6px}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:16px;padding:4px 28px 40px}
+.card{background:var(--paper);color:var(--ink);border:0;border-radius:6px;padding:14px 16px 12px;text-align:left;
+  box-shadow:0 6px 14px rgba(0,0,0,.25);position:relative;display:flex;flex-direction:column;gap:6px}
+.card:nth-child(3n+1){transform:rotate(-.6deg)} .card:nth-child(3n+2){transform:rotate(.5deg)}
+.card .nm{font-size:13px;color:var(--soft)}
+.card .bq{font-family:var(--hand);font-weight:700;font-size:25px;line-height:1.12}
+.card .grp{display:flex;flex-wrap:wrap;gap:4px}
+.card .grp span{font-size:12px;background:var(--pin-exp);border-radius:3px;padding:2px 7px}
+.card .grp span.mine{background:var(--pin-me)}
+.card .flags{display:flex;flex-wrap:wrap;gap:2px 12px;margin-top:auto;padding-top:6px;border-top:1px dotted var(--line)}
+.card .flags span{font-size:12px;color:var(--soft)}
+.card .flags span.w{color:var(--warn)}
+.card.new{animation:pop .9s ease}
+@keyframes pop{0%{box-shadow:0 0 0 6px var(--sun)}100%{box-shadow:0 6px 14px rgba(0,0,0,.25)}}
+
+.over{position:fixed;inset:0;background:rgba(15,25,20,.6);display:none;align-items:flex-start;justify-content:center;overflow:auto;padding:30px 16px;z-index:10}
+.over.open{display:flex}
+.over .in{max-width:560px;width:100%;position:relative}
+.over .x{position:absolute;right:-6px;top:-14px;width:44px;height:44px;border-radius:50%;border:0;background:var(--sun);font-size:22px}
+.over .plan{font-size:17px}
+.over .plan .big{font-size:34px}
+.over .plan p,.over .plan li{font-size:17px}
+.testtag{background:var(--warn);color:#fff;font-size:12px;padding:3px 8px;border-radius:8px;font-family:var(--body)}
+@media (max-width:600px){
+  .wall header,.tally,.grid{padding-left:16px;padding-right:16px}
+  .wall h1{font-size:34px}
+  .wall .tools{margin-left:0}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div id="root"><p class="msg">불러오는 중…</p></div>
+<div class="over" id="over" role="dialog" aria-modal="true"><div class="in"><button class="x" id="x" aria-label="닫기">×</button><div id="overBody"></div></div></div>
+
+<script src="config.js"></script>
+<script>
+(function(){
+"use strict";
+var CFG = window.APP_CONFIG || {};
+var P = new URLSearchParams(location.search);
+var TEST = P.has("test"), DEMO = P.has("demo");
+var root = document.getElementById("root");
+function esc(s){ return String(s == null ? "" : s).replace(/[&<>"']/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); }
+function arr(a){ return Array.isArray(a) ? a : []; }
+function msg(t, s){ root.innerHTML = '<div class="msg"><b>' + t + '</b>' + (s || "") + '</div>'; }
+
+/* ---------- 설계안 한 장 ---------- */
+function planHtml(d){
+  var ck = d.ck || {}, gs = arr(d.groups), subs = arr(d.subs);
+  var plan4 = [d.lessons, d.team].concat(arr(d.roles).length ? ["역할 " + d.roles.join("·")] : []).concat(arr(d.helps).length ? ["도움 " + d.helps.join("·")] : []).filter(Boolean).join(" / ");
+  return '<div class="plan"><div class="who">' + esc(d.name) + '의 수업설계안</div><div class="big">' + esc(d.big) + '</div>' +
+    '<div class="tags">' + [d.link, d.lessons, d.team].filter(Boolean).map(function(t){ return '<span>' + esc(t) + '</span>'; }).join("") + '</div>' +
+    (d.path ? '<h4>오늘 아침 나는</h4><p>' + esc(d.morning) + ' → ' + esc(d.path) + ' → 신발끈이 풀린 채로 등교</p>' : "") +
+    '<h4>1. 요구 탐색 · 아이들의 질문 묶음</h4><ul>' + gs.map(function(g){ return '<li><span class="u">' + esc(g.name) + '</span>: ' + esc(arr(g.items).join(" / ")) + '</li>'; }).join("") + '</ul>' +
+    (arr(d.left).length ? '<p class="left">다루지 않은 질문: ' + esc(d.left.join(" / ")) + '</p>' : "") +
+    '<h4>2. 문제 선정 · 큰 질문</h4><p>' + esc(d.big) + '</p>' +
+    '<h4>3. 문제 구체화 · 작은 질문과 목표</h4><ul>' + subs.map(function(g){ return '<li>' + esc(g.name) + ': ' + esc(arr(g.subs).join(" / ")) + '</li>'; }).join("") + '</ul>' +
+    (d.goal ? '<p>목표: ' + esc(d.goal) + '</p>' : "") +
+    '<h4>4. 실행 계획</h4><p>' + esc(plan4) + '</p>' +
+    '<h4>5. 실행</h4><p>' + esc(d.flow || arr(d.acts).join(" → ")) + '</p>' +
+    '<h4>6. 평가</h4><p>결과물: ' + esc(arr(d.outputs).join("·")) + (arr(d.evals).length ? ' / 평가: ' + esc(d.evals.join("·")) : "") + '</p>' +
+    (d.action ? '<p>실천: ' + esc(d.action) + '</p>' : "") +
+    (d.know || d.can || d.be ? '<ul><li>알게 될 것: ' + esc(d.know) + '</li><li>할 수 있게 될 것: ' + esc(d.can) + '</li><li>어떤 사람이 될까: ' + esc(d.be) + '</li></ul>' : "") +
+    '<h4>내가 생각한 우리 수업</h4><ul>' + [ck.owner, ck.flow, ck.open].filter(Boolean).map(function(t){ return '<li>' + esc(t) + '</li>'; }).join("") + '</ul>' +
+    '<div class="tags">' + arr(ck.subj).map(function(s){ return '<span>' + esc(s) + '</span>'; }).join("") + '</div></div>';
+}
+
+/* ---------- 서버 ---------- */
+function get(params){
+  if (DEMO) return Promise.resolve(demo(params));
+  if (!CFG.SCRIPT_URL) return Promise.reject(new Error("config.js에 SCRIPT_URL이 비어 있어요."));
+  var q = Object.keys(params).map(function(k){ return k + "=" + encodeURIComponent(params[k]); }).join("&") + (TEST ? "&test" : "");
+  return fetch(CFG.SCRIPT_URL + "?" + q, {cache:"no-store"}).then(function(r){ return r.json(); });
+}
+
+/* ---------- 개인 보기 ---------- */
+function showOne(id){
+  document.title = "수업설계안";
+  get({action:"get", id:id}).then(function(res){
+    if (!res.ok) return msg("설계안을 찾지 못했어요", "링크를 다시 확인해 주세요.");
+    var d = res.item;
+    document.title = d.name + "의 수업설계안";
+    var start = (CFG.SITE_URL || "./") + (TEST ? "?test" : "");
+    root.innerHTML = '<div class="one">' + planHtml(d) + '<a class="try" href="' + esc(start) + '">나도 비 오는 날 수업 만들어 보기</a></div>';
+  }).catch(function(){ msg("설계안을 불러오지 못했어요", "잠시 뒤 새로고침해 주세요."); });
+}
+
+/* ---------- 모아보기 ---------- */
+var CK = [
+  {k:"owner", q:"누가 질문을 정했나요?", a:["교사가 정했다","한 아이의 질문을 그대로 가져왔다","아이들의 질문을 모아 함께 정했다"]},
+  {k:"flow",  q:"수업은 무엇을 따라 흘러가나요?", a:["교과별 시간으로 나뉜다","주제는 하나지만 교과의 개념이나 기능이 중심이다","질문을 풀어 가는 흐름대로 진행된다"]},
+  {k:"open",  q:"결과물은 어떤 모습인가요?", a:["모두 같은 정답에 도달한다","형식은 같고 내용만 조금 다르다","모둠마다 다른 결과와 실천이 나온다"]}
+];
+var SUBJ = ["국어","수학","바른 생활","슬기로운 생활","즐거운 생활"];
+var items = [], seen = {}, timer = null, first = true;
+
+function bars(list, total, alt){
+  return list.map(function(x){
+    var w = total ? Math.round(x.n / total * 100) : 0;
+    return '<div class="bar' + (alt ? " alt" : "") + '"><span class="t">' + esc(x.t) + '</span><span class="n">' + x.n + '</span><span class="g"><i style="width:' + w + '%"></i></span></div>';
+  }).join("");
+}
+function count(fn){ return items.filter(fn).length; }
+
+function renderWall(){
+  var n = items.length;
+  var tallies = CK.map(function(c){
+    return '<section><h3>' + c.q + '</h3>' + bars(c.a.map(function(a){ return {t:a, n:count(function(d){ return d.ck && d.ck[c.k] === a; })}; }), n) + '</section>';
+  }).join("");
+  var subj = '<section><h3>어떤 교과가 들어 있다고 느꼈나요?</h3>' +
+    bars(SUBJ.map(function(s){ return {t:s, n:count(function(d){ return d.ck && arr(d.ck.subj).indexOf(s) >= 0; })}; }), n, true) + '</section>';
+  var mine = count(function(d){ return d.leftMine; }), leftAny = count(function(d){ return arr(d.left).length; });
+  var hint = count(function(d){ return d.hints > 0; }), warn = count(function(d){ return d.warn > 0; });
+  var notes = '<section><h3>설계하면서 생긴 일</h3>' +
+    bars([{t:"묶지 못한 질문을 남겨 둔 사람", n:leftAny}, {t:"그중 내 질문을 뺀 사람", n:mine}, {t:"예시 힌트를 열어 본 사람", n:hint}, {t:"교과 이름을 써서 알림을 본 사람", n:warn}], n, true) + '</section>';
+
+  var cards = items.slice().reverse().map(function(d){
+    var ck = d.ck || {};
+    var flags = [];
+    if (d.leftMine) flags.push('<span class="w">내 질문을 뺐어요</span>');
+    else if (arr(d.left).length) flags.push('<span>남긴 질문 ' + d.left.length + '개</span>');
+    if (d.warn > 0) flags.push('<span class="w">교과명 알림 ' + d.warn + '번</span>');
+    if (d.hints > 0) flags.push('<span>힌트 ' + d.hints + '단계</span>');
+    if (ck.subj && ck.subj.length) flags.push('<span>' + esc(ck.subj.join("·")) + '</span>');
+    return '<button class="card' + (!first && !seen[d.id] ? " new" : "") + '" data-id="' + esc(d.id) + '">' +
+      '<span class="nm">' + esc(d.name) + ' · ' + esc(d.lessons || "") + '</span>' +
+      '<span class="bq">' + esc(d.big) + '</span>' +
+      '<span class="grp">' + arr(d.groups).map(function(g){ return '<span>' + esc(g.name) + ' ' + arr(g.items).length + '</span>'; }).join("") + '</span>' +
+      '<span class="flags">' + flags.join("") + '</span></button>';
+  }).join("");
+  items.forEach(function(d){ seen[d.id] = true; });
+  first = false;
+
+  var auto = timer !== null;
+  root.innerHTML =
+    '<header><h1>우리가 만든 비 오는 날 수업</h1><span class="count"><b>' + n + '</b>개의 설계안</span>' + (TEST ? '<span class="testtag">테스트 기록</span>' : "") +
+    '<div class="tools"><span class="stamp" id="stamp"></span><label><input type="checkbox" id="auto"' + (auto ? " checked" : "") + '> 자동 새로고침</label><button id="refresh">새로고침</button></div></header>' +
+    (n ? '<div class="tally">' + tallies + subj + notes + '</div><div class="grid">' + cards + '</div>'
+       : '<p class="msg" style="color:var(--chalk)">아직 들어온 설계안이 없어요. 제출이 들어오면 여기에 붙어요.</p>');
+  var now = new Date();
+  document.getElementById("stamp").textContent = now.getHours() + ":" + String(now.getMinutes()).padStart(2, "0") + " 기준";
+}
+
+function loadWall(){
+  return get({action:"list"}).then(function(res){
+    if (!res.ok) throw new Error(res.error);
+    items = res.items || []; renderWall();
+  }).catch(function(e){
+    if (!items.length) msg("모아보기를 불러오지 못했어요", esc(e && e.message || "잠시 뒤 새로고침해 주세요."));
+    else { var s = document.getElementById("stamp"); if (s) s.textContent = "새로고침 실패, 다시 눌러 주세요"; }
+  });
+}
+function setAuto(on){
+  if (timer){ clearInterval(timer); timer = null; }
+  if (on) timer = setInterval(function(){ if (!over.classList.contains("open")) loadWall(); }, 15000);
+}
+
+var over = document.getElementById("over");
+function openOne(id){
+  var d = items.filter(function(x){ return x.id === id; })[0]; if (!d) return;
+  document.getElementById("overBody").innerHTML = planHtml(d);
+  over.classList.add("open"); document.getElementById("x").focus();
+}
+function closeOne(){ over.classList.remove("open"); }
+document.getElementById("x").addEventListener("click", closeOne);
+over.addEventListener("click", function(e){ if (e.target === over) closeOne(); });
+document.addEventListener("keydown", function(e){ if (e.key === "Escape") closeOne(); });
+root.addEventListener("click", function(e){
+  var c = e.target.closest(".card"); if (c) return openOne(c.dataset.id);
+  if (e.target.id === "refresh") loadWall();
+});
+root.addEventListener("change", function(e){ if (e.target.id === "auto") setAuto(e.target.checked); });
+
+/* ---------- 리허설용 예시 데이터 (?demo) ---------- */
+function demo(params){
+  var base = [
+    {name:"서연", big:"비 오는 날에도 나와 생물을 안전하게 지킬 수 있을까?", link:"우리는 지금 어떻게 살아갈까", lessons:"8차시", team:"관심 질문별 모둠",
+     groups:[{name:"비 피하기",items:["뛰어가면 덜 젖을까?","가방을 쓰면 괜찮을까?"]},{name:"비 오는 날 생물",items:["비 오면 지렁이는 왜 나와?","지렁이는 먹을 수도 있어?"]},{name:"신발끈과 안전",items:["신발끈은 왜 자꾸 풀려?"]}],
+     left:[], leftMine:false, hints:1, warn:0, ck:{owner:"아이들의 질문을 모아 함께 정했다", flow:"질문을 풀어 가는 흐름대로 진행된다", open:"모둠마다 다른 결과와 실천이 나온다", subj:["국어","슬기로운 생활","바른 생활"]},
+     subs:[{name:"비 피하기",subs:["우산 말고 무엇으로 비를 막을까?","어디로 가면 덜 젖을까?"]}], goal:"비 오는 날 나와 지렁이를 지키는 방법을 찾아 실천한다.", acts:["우산 대신 쓸 물건 실험","화단 지렁이 관찰"], outputs:["전시"], evals:["포트폴리오"], action:"1학년 동생들에게 신발끈 묶기 알려 주기"},
+    {name:"민준", big:"우산이 없을 때 어떻게 하면 덜 젖을까?", link:"우리는 어디서 살아갈까", lessons:"4차시", team:"전체",
+     groups:[{name:"날씨",items:["비는 어디서 와?"]},{name:"비 피하기",items:["뛰어가면 덜 젖을까?","처마 밑은 왜 안 젖어?"]}],
+     left:["비는 어디서 와?","지렁이는 먹을 수도 있어?"], leftMine:true, hints:3, warn:2, ck:{owner:"교사가 정했다", flow:"주제는 하나지만 교과의 개념이나 기능이 중심이다", open:"형식은 같고 내용만 조금 다르다", subj:["수학","슬기로운 생활"]}},
+    {name:"하윤", big:"지렁이는 비 오는 날 왜 밖으로 나올까?", link:"우리는 누구로 살아갈까", lessons:"6차시", team:"관심 질문별 모둠",
+     groups:[{name:"비 오는 날 생물",items:["비 오면 지렁이는 왜 나와?","지렁이는 먹을 수도 있어?"]},{name:"날씨",items:["비는 어디서 와?"]}],
+     left:["가방을 쓰면 괜찮을까?"], leftMine:false, hints:0, warn:0, ck:{owner:"한 아이의 질문을 그대로 가져왔다", flow:"질문을 풀어 가는 흐름대로 진행된다", open:"모둠마다 다른 결과와 실천이 나온다", subj:["슬기로운 생활","즐거운 생활"]}}
+  ];
+  base.forEach(function(d, i){ d.id = "demo" + i; });
+  if (params.action === "get") return {ok:true, item:base[0]};
+  return {ok:true, items:base};
+}
+
+/* ---------- 시작 ---------- */
+var id = P.get("id");
+if (id) showOne(id);
+else if (P.has("all")){ document.body.classList.add("wall"); document.title = "모아보기"; setAuto(true); loadWall(); }
+else msg("보여 줄 설계안이 없어요", "받은 링크로 다시 들어와 주세요.");
+})();
+</script>
+</body>
+</html>
