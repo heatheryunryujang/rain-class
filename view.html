@@ -6,7 +6,7 @@
 <title>수업설계안 보기</title>
 <meta property="og:title" content="비 오는 날, 우리가 만든 수업">
 <meta property="og:description" content="아이들의 질문으로 설계한 수업을 함께 봐요.">
-<meta property="og:image" content="images/card.jpg">
+<meta property="og:image" content="https://heatheryunryujang.github.io/rain-class/images/plan-card.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Gowun+Dodum&display=swap" rel="stylesheet">
@@ -41,7 +41,13 @@ button{font:inherit;color:inherit;cursor:pointer}
 .plan .left{font-size:13px;color:var(--soft);margin-top:4px}
 .tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px}
 .tags span{font-size:12px;background:var(--sky);border-radius:10px;padding:2px 8px}
-.try{display:block;margin-top:16px;text-align:center;min-height:52px;line-height:52px;border-radius:14px;background:var(--rain);color:#fff;text-decoration:none;font-size:17px}
+.acts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
+.acts button{min-height:52px;border-radius:14px;font-size:16px;border:0}
+.acts .kakao{background:#FEE500;color:#191919}
+.acts .copy{background:transparent;border:2px solid var(--ink)}
+.st{min-height:1.4em;text-align:center;font-size:14px;margin-top:8px;color:var(--soft)}
+.st.err{color:var(--warn)} .st.ok{color:#2B7A4B}
+.try{display:block;margin-top:10px;text-align:center;min-height:52px;line-height:52px;border-radius:14px;background:var(--rain);color:#fff;text-decoration:none;font-size:17px}
 
 /* ---------- 모아보기 (발표 화면) ---------- */
 body.wall{background:var(--board);color:var(--chalk);font-size:17px}
@@ -149,8 +155,71 @@ function showOne(id){
     var d = res.item;
     document.title = d.name + "의 수업설계안";
     var start = (CFG.SITE_URL || "./") + (TEST ? "?test" : "");
-    root.innerHTML = '<div class="one">' + planHtml(d) + '<a class="try" href="' + esc(start) + '">나도 비 오는 날 수업 만들어 보기</a></div>';
+    root.innerHTML = '<div class="one">' + planHtml(d) +
+      '<div class="acts"><button class="kakao" id="kshare">카카오톡으로 보내기</button><button class="copy" id="tcopy">글로 복사하기</button></div>' +
+      '<div class="st" id="st" role="status"></div>' +
+      '<a class="try" href="' + esc(start) + '">나도 비 오는 날 수업 만들어 보기</a></div>';
+    document.getElementById("kshare").addEventListener("click", function(){ shareOne(d, id); });
+    document.getElementById("tcopy").addEventListener("click", function(){ copyText(planText(d)); });
   }).catch(function(){ msg("설계안을 불러오지 못했어요", "잠시 뒤 새로고침해 주세요."); });
+}
+
+
+/* ---------- 개인 보기: 공유와 복사 ---------- */
+function status(t, c){ var e = document.getElementById("st"); if (e){ e.textContent = t; e.className = "st " + (c || ""); } }
+var kakaoReady = null;
+function loadKakao(){
+  if (kakaoReady) return kakaoReady;
+  kakaoReady = new Promise(function(ok, no){
+    if (!CFG.KAKAO_JS_KEY) return no();
+    var sc = document.createElement("script");
+    sc.src = "https://t1.kakaocdn.net/kakao_js_sdk/2.8.3/kakao.min.js"; sc.crossOrigin = "anonymous";
+    sc.onload = function(){ try{ if (!Kakao.isInitialized()) Kakao.init(CFG.KAKAO_JS_KEY); ok(); }catch(e){ no(e); } };
+    sc.onerror = no; document.head.appendChild(sc);
+  });
+  kakaoReady.catch(function(){ kakaoReady = null; });
+  return kakaoReady;
+}
+function shareOne(d, id){
+  var base = CFG.SITE_URL || (location.origin + location.pathname.replace(/[^/]*$/, ""));
+  var url = base + "view.html?id=" + encodeURIComponent(id) + (TEST ? "&test" : "");
+  loadKakao().then(function(){
+    Kakao.Share.sendDefault({
+      objectType:"feed",
+      content:{title:d.name + "의 수업설계안", description:String(d.big || "").slice(0, 80), imageUrl:base + "images/plan-card.jpg", imageWidth:750, imageHeight:1004, link:{mobileWebUrl:url, webUrl:url}},
+      buttons:[{title:"설계안 보기", link:{mobileWebUrl:url, webUrl:url}}]
+    });
+    status("카카오톡이 열리면 보낼 방을 골라 주세요.", "ok");
+  }).catch(function(){ status("카카오 공유가 안 돼요. '글로 복사하기'로 붙여 넣어 주세요.", "err"); });
+}
+function planText(d){
+  var ck = d.ck || {}, L = [];
+  L.push("[" + d.name + "의 수업설계안]");
+  L.push("큰 질문: " + d.big + (d.link ? " (" + d.link + ")" : ""));
+  L.push("");
+  L.push("1. 요구 탐색: " + arr(d.groups).map(function(g){ return g.name + "(" + arr(g.items).join(" / ") + ")"; }).join(", "));
+  L.push("2. 문제 선정: " + d.big);
+  L.push("3. 문제 구체화: " + arr(d.subs).map(function(g){ return g.name + " - " + arr(g.subs).join(" / "); }).join(" | "));
+  if (d.goal) L.push("   목표: " + d.goal);
+  L.push("4. 실행 계획: " + [d.lessons, d.team].filter(Boolean).join(", ") + (arr(d.roles).length ? ", 역할 " + d.roles.join("·") : "") + (arr(d.helps).length ? ", 도움 " + d.helps.join("·") : ""));
+  L.push("5. 실행: " + (d.flow || arr(d.acts).join(" → ")));
+  L.push("6. 평가: " + arr(d.outputs).join("·") + (arr(d.evals).length ? " / " + d.evals.join("·") : "") + (d.action ? " / 실천: " + d.action : ""));
+  if (d.know || d.can || d.be) L.push("   알게 될 것: " + (d.know || "") + " / 할 수 있게 될 것: " + (d.can || "") + " / 어떤 사람: " + (d.be || ""));
+  L.push("");
+  L.push("내가 생각한 우리 수업: " + [ck.owner, ck.flow, ck.open].filter(Boolean).join(" / "));
+  if (arr(ck.subj).length) L.push("들어 있는 교과: " + ck.subj.join(", "));
+  return L.join("\n");
+}
+function copyText(t){
+  var done = function(){ status("복사했어요. 카카오톡 대화창에 붙여 넣으세요.", "ok"); };
+  var fallback = function(){
+    var ta = document.createElement("textarea"); ta.value = t; ta.setAttribute("readonly", ""); ta.style.position = "fixed"; ta.style.opacity = "0";
+    document.body.appendChild(ta); ta.select(); ta.setSelectionRange(0, t.length);
+    var ok = false; try{ ok = document.execCommand("copy"); }catch(e){}
+    document.body.removeChild(ta);
+    if (ok) done(); else status("복사가 안 됐어요. 화면을 캡처해서 보내 주세요.", "err");
+  };
+  try{ navigator.clipboard.writeText(t).then(done, fallback); }catch(e){ fallback(); }
 }
 
 /* ---------- 모아보기 ---------- */

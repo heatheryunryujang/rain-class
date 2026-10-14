@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>비 오는 날, 우산이 없다면?</title>
 <meta property="og:title" content="비 오는 날, 우산이 없다면?">
-<meta property="og:description" content="2학년 아이가 되어 비 오는 등굣길을 걷고, 선생님이 되어 그 질문으로 수업을 설계해 봐요.">
+<meta property="og:description" content="초등학생으로 돌아가 일상의 질문을 모으고, 교사로 변신해서 그 질문으로 수업을 만들어 봐요.">
 <meta property="og:image" content="images/card.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -137,6 +137,11 @@ label.f small{color:var(--soft)}
 .box .hd .x{flex:none;border:0;background:transparent;font-size:20px;width:36px;height:36px;color:var(--soft)}
 .box .empty{font-size:13px;color:var(--soft);padding:6px 2px}
 .box .pin{width:calc(50% - 4px);min-height:54px;font-size:15px}
+.howto{margin:2px 0 10px 20px;font-size:14px;line-height:1.5;color:var(--ink)}
+.howto li{margin-bottom:4px}
+.howto b{display:block;font-weight:normal;text-decoration:underline;text-underline-offset:3px}
+.own{display:flex;align-items:center;gap:6px;margin-top:8px;font-size:15px}
+.own .inp{width:110px;padding:8px 12px;font-size:16px}
 .legend{font-size:12px;color:var(--soft);display:flex;gap:10px;margin:4px 0 8px}
 .legend i{display:inline-block;width:10px;height:10px;margin-right:4px;vertical-align:-1px}
 
@@ -400,7 +405,7 @@ function nextBtn(label, to, gated){ return '<button class="next" data-act="go" d
 R.name = function(){
   return {html:
     '<h1 class="hand">비 오는 날,<br>우산이 없다면?</h1>' +
-    '<p class="lead">오늘 하루, 2학년이 되어 볼 거예요.<br>비 오는 등굣길을 걷고 나면, 선생님이 되어 수업을 만들어 봐요.</p>' +
+    '<p class="lead">초등학생으로 돌아가 일상생활과 관련된 질문을 수집해 봅시다.<br>등굣길이 끝나면 교사로 변신해서 수업을 만들어 봅시다.</p>' +
     '<label class="f" for="f-name">이름</label>' +
     '<input class="inp" id="f-name" data-bind="name" maxlength="20" autocomplete="off" placeholder="이름을 적어 주세요" value="' + esc(S.name) + '">' +
     (TEST ? '<p class="cite">리허설 모드예요. 제출한 내용은 테스트 기록에 따로 저장돼요.</p>' : ""),
@@ -492,7 +497,7 @@ R.think = function(){
   return {html:'<div class="scene">' + img("s7-think", "창밖을 보며 생각하는 아이") +
     '<span class="bub" style="left:54.5%;top:24%;font-size:clamp(10px,3.1vw,15px)">우산 없을 때<br>쓰는 방법<br>없나?</span></div>' +
     '<p class="story">자리에 앉아 창밖을 보며 생각했어요.<br><b>"아, 비 오는데 우산 없을 때 쓰는 방법 없나?"</b></p>' +
-    field("myQ", '나라면 오늘 뭐가 궁금했을까요? <small>(비워도 괜찮아요)</small>', {max:60, ph:"예: 비는 어디서 와?"}),
+    field("myQ", '나라면 오늘 뭐가 궁금했을까요?', {max:60, ph:"예: 비는 어디서 와?"}),
     bar: nextBtn("다음", "turn")};
 };
 
@@ -512,7 +517,7 @@ function pinHtml(id, extraCls){
 function head(n, guide){
   return '<div class="boardhead"><h2>' + n + '. ' + STEPS[n - 1] + '</h2><p>' + guide + '</p></div>';
 }
-function cite(){ return '<p class="cite">설계 단계: 안지연(2019) 초학문적 융합 수업 실행 단계</p>'; }
+function cite(){ return '<p class="cite">설계 단계: 김영은·안지연(2019) 초학문적 융합 수업 실행 단계</p>'; }
 
 /* ---------- 1. 요구 탐색 ---------- */
 var selPin = null;
@@ -523,7 +528,12 @@ R.d1 = function(){
   var pinBtn = function(id){ var q = Q[id]; return '<button class="pin ' + q.k + (selPin === id ? " sel" : "") + '" data-act="pin" data-id="' + id + '">' + esc(qText(id)) + '<span class="who">' + esc(q.who) + '</span></button>'; };
   var html = head(1, "아이들의 질문을 살펴보고, 비슷한 것끼리 묶어 보세요.") +
     '<div class="legend"><span><i style="background:var(--pin-exp)"></i>내가 겪은 일</span><span><i style="background:var(--pin-fr)"></i>친구</span><span><i style="background:var(--pin-me)"></i>내 질문</span></div>' +
-    '<p class="lead" style="margin-bottom:6px">질문을 누르고 → 넣을 묶음을 누르세요.</p>' +
+    '<ol class="howto">' +
+      '<li><b>질문 선택하기</b> 파란색, 분홍색, 노란색 포스트잇에 적힌 질문을 먼저 눌러 주세요.</li>' +
+      '<li><b>묶음에 넣기</b> 이어서 \'흰색 칸\'을 누르면, 선택한 질문이 해당 묶음 안으로 쏙 들어갑니다.</li>' +
+      '<li><b>주제 이름 정하기</b> 질문이 모인 소주제 묶음에 알맞은 이름을 적어 주세요.</li>' +
+      '<li><b>새 묶음 추가하기 (선택)</b> 분류할 주제가 더 있다면 \'묶음 추가\' 버튼을 눌러 새로운 소주제 가지를 계속 만들 수 있습니다.</li>' +
+    '</ol>' +
     '<div class="pins">' + (lo.length ? lo.map(pinBtn).join("") : '<p class="lead">모든 질문을 묶었어요!</p>') + '</div>';
   S.groups.forEach(function(g, i){
     html += '<div class="box' + (selPin ? " target" : "") + '" data-act="drop" data-g="' + g.id + '"><div class="hd">' +
@@ -608,16 +618,18 @@ function branchSheet(gid){
 }
 
 /* ---------- 4. 실행 계획 ---------- */
+var LESSONS = ["4차시","6차시","8차시","10차시"];
 R.d4 = function(){
   var preview = S.team === "관심 질문별 모둠" ? '<div class="tags" style="margin-top:6px">' + liveGroups().map(function(g){ return '<span>' + esc(g.name) + ' 모둠</span>'; }).join("") + '</div>' : "";
   return {html: head(4, "시간, 모둠, 역할, 도움 받을 곳을 정해요.") +
-    '<label class="f">몇 차시?</label>' + chipGroup("lessons", ["4차시","6차시","8차시","10차시"], false) +
+    '<label class="f">몇 차시?</label>' + chipGroup("lessons", LESSONS, false) +
+    '<div class="own"><input class="inp" id="f-lessons-own" inputmode="numeric" maxlength="2" placeholder="직접 쓰기" aria-label="차시 직접 쓰기" value="' + (S.lessons && LESSONS.indexOf(S.lessons) < 0 ? esc(parseInt(S.lessons, 10) || "") : "") + '"><span>차시</span></div>' +
     '<label class="f">모둠은?</label>' + chipGroup("team", ["짝","4명 모둠","관심 질문별 모둠","반 전체"], false) + preview +
     '<label class="f">역할은? <small>(여러 개)</small></label>' + chipGroup("roles", ["기록이","실험이","조사원","발표자"].concat(S.roles.filter(function(r){ return ["기록이","실험이","조사원","발표자"].indexOf(r) < 0; })), true, true) +
     '<label class="f">누구에게, 어디서 도움을 받을까? <small>(여러 개)</small></label>' + chipGroup("helps", ["부모님","행정실","보건 선생님","도서관","운동장","학교 화단"].concat(S.helps.filter(function(r){ return ["부모님","행정실","보건 선생님","도서관","운동장","학교 화단"].indexOf(r) < 0; })), true, true) + cite(),
     bar:nextBtn("다음 단계", "d5", true)};
 };
-R.d4.gate = function(){ if (!S.lessons) return "차시를 골라 주세요"; if (!S.team) return "모둠을 골라 주세요"; return ""; };
+R.d4.gate = function(){ if (!S.lessons) return "차시를 고르거나 적어 주세요"; if (!S.team) return "모둠을 골라 주세요"; return ""; };
 
 /* ---------- 5. 실행 ---------- */
 R.d5 = function(){
@@ -769,6 +781,12 @@ function confirmBox(text, yes, no, onYes, onNo){
 document.addEventListener("input", function(e){
   var t = e.target;
   if (t.dataset.bind){ S[t.dataset.bind] = t.value; checkWarn(t.dataset.bind); save(); refreshBar(); return; }
+  if (t.id === "f-lessons-own"){
+    var v = t.value.replace(/\D/g, "").replace(/^0+/, "").slice(0, 2); if (t.value !== v) t.value = v;
+    S.lessons = v ? v + "차시" : "";
+    document.querySelectorAll('[data-key="lessons"]').forEach(function(c){ c.classList.remove("on"); });
+    save(); refreshBar(); return;
+  }
   if (t.dataset.gname){ S.groups.forEach(function(g){ if (g.id === t.dataset.gname) g.name = t.value; }); save(); refreshBar(); return; }
   if (t.dataset.sub){
     var arr = S.subs[t.dataset.sub] || ["",""]; arr[+t.dataset.i] = t.value; S.subs[t.dataset.sub] = arr;
@@ -916,7 +934,7 @@ function share(d, id){
   loadKakao().then(function(){
     Kakao.Share.sendDefault({
       objectType:"feed",
-      content:{title:d.name + "의 수업설계안", description:d.big.slice(0, 80), imageUrl:base + "images/card.jpg", link:{mobileWebUrl:url, webUrl:url}},
+      content:{title:d.name + "의 수업설계안", description:d.big.slice(0, 80), imageUrl:base + "images/plan-card.jpg", imageWidth:750, imageHeight:1004, link:{mobileWebUrl:url, webUrl:url}},
       buttons:[{title:"설계안 보기", link:{mobileWebUrl:url, webUrl:url}}]
     });
   }).catch(function(){
