@@ -26,7 +26,7 @@
   --pin-me:#FCE9A6;   /* 포스트잇: 나 */
   --pin-exp:#D3E5F8;  /* 포스트잇: 내가 겪은 일 */
   --pin-fr:#F8D9D6;   /* 포스트잇: 친구 */
-  --warn:#B4532A;
+  --warn:#633D32;
   --hand:"Gaegu","Gowun Dodum",cursive;
   --body:"Gowun Dodum","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
   color-scheme:light;
@@ -38,7 +38,7 @@ body{background:var(--sky);color:var(--ink);font-family:var(--body);font-size:16
 body.teacher{background:var(--chalk)}
 button,input,textarea{font:inherit;color:inherit}
 button{cursor:pointer;-webkit-tap-highlight-color:transparent}
-:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+:focus-visible{outline:5px solid var(--sun);outline-offset:2px}
 #app{max-width:480px;margin:0 auto;min-height:100%;display:flex;flex-direction:column}
 
 /* ---------- 위쪽 띠 ---------- */
@@ -52,7 +52,7 @@ body.teacher #top{background:var(--board);color:var(--chalk)}
 .dots i{width:9px;height:12px;border-radius:50% 50% 50% 50%/60% 60% 40% 40%;background:#B9C6D3;display:block}
 .dots i.on{background:var(--rain)}
 .gauge{display:flex;gap:4px;align-items:flex-end}
-.gauge i{position:relative;width:22px;height:26px;border:2px solid var(--chalk);border-top:0;border-radius:0 0 6px 6px;overflow:hidden;display:block}
+.gauge i{position:relative;width:22px;height:26px;border:5px solid var(--chalk);border-top:0;border-radius:0 0 6px 6px;overflow:hidden;display:block}
 .gauge i::after{content:"";position:absolute;left:0;right:0;bottom:0;height:0;background:#7FB2EA;transition:height .6s ease}
 .gauge i.on::after{height:100%}
 .gauge i.now{border-color:var(--sun)}
@@ -73,7 +73,7 @@ h1.hand,h2.hand{font-family:var(--hand);font-weight:700;line-height:1.15}
 h1.hand{font-size:40px;margin:18px 0 6px}
 h2.hand{font-size:28px;margin:6px 0 4px}
 .lead{color:var(--soft);margin-bottom:16px}
-.say{display:inline-block;background:var(--paper);border:2px solid var(--ink);border-radius:18px;padding:8px 14px;
+.say{display:inline-block;background:var(--paper);border:5px solid var(--ink);border-radius:18px;padding:8px 14px;
   font-family:var(--hand);font-weight:700;font-size:21px;line-height:1.25;margin:0 0 12px;position:relative}
 .say small{display:block;font-family:var(--body);font-weight:normal;font-size:12px;color:var(--soft)}
 
@@ -105,7 +105,7 @@ label.f small{color:var(--soft)}
 .warn.show{display:block}
 .hintbtn{border:0;background:transparent;color:var(--rain-deep);font-size:14px;padding:6px 0;text-decoration:underline;text-underline-offset:3px}
 .hints{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
-.hint{border:1.5px dashed var(--rain);background:#F2F7FD;border-radius:10px;padding:6px 10px;font-size:14px;text-align:left}
+.hint{border:1.5px dashed var(--rain);background:#739ED1;border-radius:10px;padding:6px 10px;font-size:14px;text-align:left}
 
 /* 칩 */
 .chips{display:flex;flex-wrap:wrap;gap:8px}
@@ -116,22 +116,22 @@ label.f small{color:var(--soft)}
 .chip.on .rec{color:var(--sun)}
 .add{display:flex;gap:6px;margin-top:8px}
 .add .inp{padding:8px 12px;font-size:15px}
-.add button{flex:none;border:2px solid var(--ink);border-radius:12px;background:var(--paper);padding:0 14px}
+.add button{flex:none;border:5px solid var(--ink);border-radius:12px;background:var(--paper);padding:0 14px}
 
 /* 카드형 선택 */
 .cards{display:grid;gap:8px}
 .card{border:2px solid var(--line);border-radius:14px;background:var(--paper);padding:12px 14px;text-align:left;font-size:15px}
-.card.on{border-color:var(--board);box-shadow:inset 0 0 0 2px var(--board);background:#EEF3EF}
+.card.on{border-color:var(--board);box-shadow:inset 0 0 0 2px var(--board);background:#729E83}
 
 /* 포스트잇 */
 .pins{display:flex;flex-wrap:wrap;gap:8px}
 .pin{width:calc(50% - 4px);min-height:66px;padding:8px 10px;border:0;border-radius:3px;font-family:var(--hand);font-weight:700;font-size:17px;
   line-height:1.15;text-align:left;box-shadow:0 2px 4px rgba(36,48,61,.18);position:relative}
 .pin.me{background:var(--pin-me)} .pin.exp{background:var(--pin-exp)} .pin.fr{background:var(--pin-fr)}
-.pin.sel{outline:3px solid var(--ink);outline-offset:1px;transform:rotate(-1.5deg)}
+.pin.sel{outline:5px solid var(--ink);outline-offset:1px;transform:rotate(-1.5deg)}
 .pin .who{display:block;font-family:var(--body);font-weight:normal;font-size:11px;color:var(--soft);margin-top:4px}
 .box{border:2px dashed var(--board);border-radius:14px;padding:10px;margin-top:10px;background:#fff}
-.box.target{border-style:solid;background:#F1F6F2}
+.box.target{border-style:solid;background:#91B9E8}
 .box .hd{display:flex;gap:6px;align-items:center;margin-bottom:8px}
 .box .hd .inp{padding:8px 10px;font-size:16px}
 .box .hd .x{flex:none;border:0;background:transparent;font-size:20px;width:36px;height:36px;color:var(--soft)}
@@ -163,7 +163,7 @@ label.f small{color:var(--soft)}
 /* 친구 */
 .friends{display:flex;justify-content:space-between;gap:6px;margin:6px 0 10px}
 .friend{flex:1;border:0;background:transparent;text-align:center;font-size:13px}
-.friend img{width:100%;max-width:64px;aspect-ratio:1;border-radius:50%;border:3px solid var(--line);display:block;margin:0 auto 4px;background:#fff}
+.friend img{width:100%;max-width:64px;aspect-ratio:1;border-radius:50%;border:5px solid var(--line);display:block;margin:0 auto 4px;background:#fff}
 .friend.heard img{border-color:var(--rain)}
 .friend.heard span::after{content:" ✓";color:var(--rain)}
 .talk{min-height:64px}
@@ -180,7 +180,7 @@ label.f small{color:var(--soft)}
 .node .tap{display:block;font-size:11px;color:var(--rain-deep);margin-top:2px}
 .node.done{border-color:var(--rain)}
 
-.kwl{border:2px solid var(--board);border-radius:12px;padding:10px 12px;margin-top:12px;background:#fff;font-size:14px}
+.kwl{border:4px solid var(--board);border-radius:12px;padding:10px 12px;margin-top:12px;background:#fff;font-size:14px}
 .kwl summary{cursor:pointer;font-size:15px}
 .kwl ol{margin:6px 0 0 20px}
 .cite{font-size:11px;color:var(--soft);margin-top:18px}
@@ -200,7 +200,7 @@ label.f small{color:var(--soft)}
 .plan{background:#fff;border:2px solid var(--ink);border-radius:16px;padding:16px;margin-bottom:14px}
 .plan .who{font-size:13px;color:var(--soft)}
 .plan .big{font-family:var(--hand);font-weight:700;font-size:26px;line-height:1.15;margin:4px 0 6px}
-.plan h4{font-size:13px;color:var(--soft);font-weight:normal;margin:14px 0 4px;border-top:1px solid var(--line);padding-top:10px}
+.plan h4{font-size:13px;color:var(--soft);font-weight:normal;margin:14px 0 4px;border-top:5px solid var(--line);padding-top:10px}
 .plan p,.plan li{font-size:15px}
 .plan ul{list-style:none}
 .plan li{padding-left:12px;position:relative}
@@ -208,7 +208,7 @@ label.f small{color:var(--soft)}
 .tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px}
 .tags span{font-size:12px;background:var(--sky);border-radius:10px;padding:2px 8px}
 .status{font-size:14px;text-align:center;margin:8px 0;min-height:1.4em}
-.status.ok{color:#2B7A4B} .status.err{color:var(--warn)}
+.status.ok{color:#299653} .status.err{color:var(--warn)}
 
 .testbadge{position:fixed;right:8px;top:calc(env(safe-area-inset-top,0px) + 58px);z-index:30;background:var(--warn);color:#fff;font-size:12px;padding:3px 8px;border-radius:8px}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
