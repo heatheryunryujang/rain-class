@@ -16,37 +16,37 @@
   --body:"Gowun Dodum","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
   color-scheme:light;
 }
-*{box-sizing:border-box;margin:0;padding:0}
+*{box-sizing:-box;margin:0;padding:0}
 body{background:var(--sky);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.6;word-break:keep-all;-webkit-text-size-adjust:100%}
 button{font:inherit;cursor:pointer}
-:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+:focus-visible{outline:3px solid var(--sun);outline-offset:4px}
 main{max-width:480px;margin:0 auto;padding:20px 16px 40px}
 h1{font-family:var(--hand);font-weight:700;font-size:34px;line-height:1.1;margin-bottom:4px}
 .lead{color:var(--soft);margin-bottom:18px}
-.preview{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 4px 12px rgba(36,48,61,.15);margin-bottom:12px}
+.preview{background:#fff;-radius:18px;overflow:hidden;box-shadow:0 4px 12px rgba(36,48,61,.15);margin-bottom:12px}
 .preview img{display:block;width:100%;aspect-ratio:2/1;object-fit:cover;background:#dfe6ec}
-.preview .t{padding:10px 14px 2px;font-weight:bold}
-.preview .d{padding:0 14px 10px;font-size:14px;color:var(--soft)}
-.preview .b{border-top:1px solid #eee;text-align:center;padding:10px;font-size:15px}
-.send{width:100%;min-height:56px;border:0;border-radius:14px;background:#FEE500;color:#191919;font-size:18px;margin-bottom:8px}
-.sub{width:100%;min-height:46px;border:2px solid var(--ink);border-radius:14px;background:transparent;font-size:15px}
+.preview .t{padding:20px 14px 2px;font-weight:bold}
+.preview .d{padding:0 14px 20px;font-size:14px;color:var(--soft)}
+.preview .b{-top:1px solid #eee;text-align:center;padding:20px;font-size:15px}
+.send{width:100%;min-height:56px;:0;-radius:14px;background:#FEE500;color:#191919;font-size:18px;margin-bottom:8px}
+.sub{width:100%;min-height:46px;:2px solid var(--ink);-radius:14px;background:transparent;font-size:15px}
 .status{min-height:1.4em;font-size:14px;text-align:center;margin:8px 0 18px}
 .status.err{color:var(--warn)} .status.ok{color:var(--ok)}
-h2{font-size:15px;color:var(--soft);font-weight:normal;margin:22px 0 8px;border-top:1px solid var(--line);padding-top:14px}
+h2{font-size:15px;color:var(--soft);font-weight:normal;margin:22px 0 8px;-top:1px solid var(--line);padding-top:14px}
 .checks{list-style:none;display:grid;gap:6px}
-.checks li{display:flex;gap:10px;align-items:baseline;background:var(--paper);border-radius:10px;padding:8px 12px;font-size:15px}
+.checks li{display:flex;gap:20px;align-items:baseline;background:var(--paper);-radius:10px;padding:8px 12px;font-size:15px}
 .checks li i{font-style:normal;flex:none;width:20px;text-align:center}
 .checks li.ok i{color:var(--ok)} .checks li.no i{color:var(--warn)}
 .checks small{display:block;color:var(--soft);font-size:12px;word-break:break-all}
 .links{display:grid;gap:8px}
-.links a{display:block;background:var(--paper);border:2px solid var(--line);border-radius:12px;padding:10px 14px;color:var(--ink);text-decoration:none}
+.links a{display:block;background:var(--paper);:4px solid var(--line);-radius:12px;padding:10px 14px;color:var(--ink);text-decoration:none}
 .links a small{display:block;color:var(--soft);font-size:13px}
 </style>
 </head>
 <body>
 <main>
   <h1>발표자 준비</h1>
-  <p class="lead">발표 직전에 이 화면에서 단톡방으로 카드를 보내요.</p>
+  <p class="lead"> 완성된 카드를 단톡방에 지도안을 보내요.</p>
 
   <div class="preview" aria-hidden="true">
     <img src="images/card.jpg" alt="">
@@ -54,8 +54,8 @@ h2{font-size:15px;color:var(--soft);font-weight:normal;margin:22px 0 8px;border-
     <div class="d" id="pd"></div>
     <div class="b">시뮬레이션 하기</div>
   </div>
-  <button class="send" id="send">단톡방에 카드 보내기</button>
-  <button class="sub" id="sendTest">리허설 카드 보내기 (나와의 채팅으로)</button>
+  <button class="send" id="send"> 지도안 공유하기</button>
+  <button class="sub" id="sendTest"> 리허설 카드 보내기(나와의 채팅으로)</button>
   <div class="status" id="status" role="status"></div>
 
   <h2>설정 점검</h2>
@@ -102,19 +102,19 @@ function send(test){
       content:{title:(test ? "[리허설] " : "") + CARD.title, description:CARD.desc, imageUrl:BASE + "images/card.jpg", link:{mobileWebUrl:url, webUrl:url}},
       buttons:[{title:"시뮬레이션 하기", link:{mobileWebUrl:url, webUrl:url}}]
     });
-    status("카카오톡이 열리면 보낼 방을 골라 주세요.", "ok");
+    status("메시지를 전송할 채팅방을 골라 주세요.", "ok");
   }).catch(function(e){ status(e.message || "카카오 공유를 열지 못했어요.", "err"); });
 }
 $("send").addEventListener("click", function(){ send(false); });
 $("sendTest").addEventListener("click", function(){ send(true); });
 
-/* 설정 점검 */
+/* setting for inspection */
 function row(ok, t, s){ return '<li class="' + (ok ? "ok" : "no") + '"><i>' + (ok ? "✓" : "!") + '</i><span>' + t + (s ? '<small>' + s + '</small>' : "") + '</span></li>'; }
 var onPages = /github\.io$/.test(location.hostname);
 var list = [
   row(!!CFG.SITE_URL && /\/$/.test(CFG.SITE_URL), "사이트 주소", CFG.SITE_URL ? CFG.SITE_URL + (/\/$/.test(CFG.SITE_URL) ? "" : "  ← 끝에 / 를 붙여 주세요") : "config.js의 SITE_URL이 비어 있어요"),
   row(!!CFG.KAKAO_JS_KEY, "카카오 JavaScript 키", CFG.KAKAO_JS_KEY ? "입력됨" : "config.js의 KAKAO_JS_KEY가 비어 있어요"),
-  row(onPages || location.protocol === "https:", "카카오에 등록할 도메인", location.origin + (onPages ? "" : "  (지금은 GitHub Pages 주소가 아니에요)")),
+  row(onPages || location.protocol === "https:", "domain for kakao", location.origin + (onPages ? "" : "  (지금은 GitHub Pages 주소가 아니에요)")),
   '<li id="ping" class="no"><i>…</i><span>구글 시트 연결<small>' + (CFG.SCRIPT_URL ? "확인하는 중" : "config.js의 SCRIPT_URL이 비어 있어요") + '</small></span></li>'
 ];
 $("checks").innerHTML = list.join("");
